@@ -8,7 +8,7 @@ import (
 type EventTypeLeaveController struct {}
 
 func(controller EventTypeLeaveController) Execute(bot *linebot.Client, event *linebot.Event) {
-	profile, err := bot.GetProfile(event.Source.UserId).Do()
+	profile, err := bot.GetProfile(event.Source.UserID).Do()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
