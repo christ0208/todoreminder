@@ -15,6 +15,7 @@ import (
 var EventListeners = map[linebot.EventType] controller.BaseController {
 	linebot.EventTypeMessage: controller.EventTypeMessageController{},
 	linebot.EventTypeFollow: controller.EventTypeFollowController{},
+	linebot.EventTypeJoin: controller.EventTypeFollowController{},
 }
 
 func loadEnv() {
