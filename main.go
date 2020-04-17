@@ -42,7 +42,10 @@ func setListeners(bot *linebot.Client, r *http.Request) {
 	}
 
 	for _, event := range events {
-		EventListeners[event.Type].Execute(bot, event)
+		catchedEventType, ok := EventListeners[event.Type]
+		if ok {
+			catchedEventType.Execute(bot, event)
+		}
 	}
 }
 
