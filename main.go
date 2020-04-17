@@ -15,6 +15,8 @@ import (
 var EventListeners = map[linebot.EventType] controller.BaseController {
 	linebot.EventTypeMessage: controller.EventTypeMessageController{},
 	linebot.EventTypeFollow: controller.EventTypeFollowController{},
+	linebot.EventTypeJoin: controller.EventTypeJoinController{},
+	linebot.EventTypeLeave: controller.EventTypeLeaveController{},
 }
 
 func loadEnv() {
@@ -40,7 +42,10 @@ func setListeners(bot *linebot.Client, r *http.Request) {
 	}
 
 	for _, event := range events {
-		EventListeners[event.Type].Execute(bot, event)
+		catchedEventType, ok := EventListeners[event.Type]
+		if ok {
+			catchedEventType.Execute(bot, event)
+		}
 	}
 }
 

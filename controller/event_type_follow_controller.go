@@ -26,6 +26,9 @@ type EventTypeFollowController struct {}
 
 func (controller EventTypeFollowController) Execute(bot *linebot.Client, event *linebot.Event) {
 	profile, err := bot.GetProfile(event.Source.UserID).Do()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 	welcomingMessage = fmt.Sprintf(welcomingMessage, profile.DisplayName)
 	_, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(welcomingMessage)).Do()
 	if err != nil {
