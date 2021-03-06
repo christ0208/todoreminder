@@ -15,7 +15,7 @@ import (
 //	"/help": handler.HelpToDoListHandler{},
 //}
 
-type EventTypeMessageController struct {}
+type EventTypeMessageController struct{}
 
 func (controller EventTypeMessageController) Execute(bot *linebot.Client, event *linebot.Event) {
 	switch message := event.Message.(type) {
@@ -33,6 +33,8 @@ func (controller EventTypeMessageController) Execute(bot *linebot.Client, event 
 			handler.DeleteToDoListHandler{}.Handle(bot, event)
 		} else if strings.Contains(message.Text, "/help") {
 			handler.HelpToDoListHandler{}.Handle(bot, event)
+		} else if strings.Contains(message.Text, "/credits") {
+			handler.CreditsHandler{}.Handle(bot, event)
 		}
 	}
 }

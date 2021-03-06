@@ -17,6 +17,7 @@ var (
 		"/list [date (format: yyyy-mm-dd)] -> Show all To Do Lists on that date\n" +
 		"/remove [To Do ID] -> Remove To Do List based on ID\n" +
 		"/help -> Show Usage of Commands\n" +
+		"/credits -> Show contributions for this bot's development\n" +
 		"\n" +
 		"If you want to add any ideas to this bot, please contact me.\n" +
 		"Developer Email: christopherlimawan@gmail.com\n" +
