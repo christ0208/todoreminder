@@ -2,17 +2,18 @@ package handler
 
 import (
 	"database/sql"
-	"github.com/go-sql-driver/mysql"
-	"github.com/line/line-bot-sdk-go/linebot"
 	"log"
 	"time"
 	"todoreminder/helpers"
 	"todoreminder/model"
+
+	"github.com/go-sql-driver/mysql"
+	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-type UnsubscribeHandler struct {}
+type UnsubscribeHandler struct{}
 
-func(handler UnsubscribeHandler) Handle(bot *linebot.Client, event *linebot.Event) {
+func (handler UnsubscribeHandler) Handle(bot *linebot.Client, event *linebot.Event) {
 	dbConnection = helpers.CreateConnection()
 	userId := event.Source.UserID
 
@@ -34,7 +35,6 @@ func(handler UnsubscribeHandler) Handle(bot *linebot.Client, event *linebot.Even
 			log.Fatal(err.Error())
 		}
 	}
-
 
 	err := dbConnection.Close()
 	if err != nil {
@@ -68,12 +68,12 @@ func (handler UnsubscribeHandler) find(dbConnection *sql.DB, userId string) *mod
 }
 
 func (handler UnsubscribeHandler) update(dbConnection *sql.DB, s model.Subscribe) {
-	query := "UPDATE subscribers SET deleted_at=?"
+	query := "UPDATE subscribers SET deleted_at=? where id=?"
 	currentStatement, err := dbConnection.Prepare(query)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	_, err = currentStatement.Exec(s.DeletedAt)
+	_, err = currentStatement.Exec(s.DeletedAt, s.Id)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

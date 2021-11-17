@@ -2,14 +2,15 @@ package handler
 
 import (
 	"database/sql"
-	"github.com/go-sql-driver/mysql"
-	"github.com/line/line-bot-sdk-go/linebot"
 	"log"
 	"todoreminder/helpers"
 	"todoreminder/model"
+
+	"github.com/go-sql-driver/mysql"
+	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-type SubscribeHandler struct {}
+type SubscribeHandler struct{}
 
 func (handler SubscribeHandler) Handle(bot *linebot.Client, event *linebot.Event) {
 	dbConnection = helpers.CreateConnection()
@@ -78,12 +79,12 @@ func (handler SubscribeHandler) find(dbConnection *sql.DB, userId string) *model
 }
 
 func (handler SubscribeHandler) update(dbConnection *sql.DB, s model.Subscribe) {
-	query := "UPDATE subscribers SET deleted_at=?"
+	query := "UPDATE subscribers SET deleted_at=? where id=?"
 	currentStatement, err := dbConnection.Prepare(query)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	_, err = currentStatement.Exec(s.DeletedAt)
+	_, err = currentStatement.Exec(s.DeletedAt, s.Id)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
